@@ -1,0 +1,5 @@
+BOT_TOKEN=
+TIMEZONE=Europe/Berlin
+DB_PATH=/data/ogonek.db
+REMINDER_HOUR=20
+REMINDER_MINUTE=0
