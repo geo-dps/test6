@@ -1,0 +1,68 @@
+# 🔥 Ogonek Business Bot
+
+Обычный Telegram Bot API бот для Telegram Business Mode. Авторизация пользовательского аккаунта не требуется.
+
+## Railway
+
+1. Создайте GitHub repository.
+2. Загрузите эти файлы.
+3. В Railway выберите Deploy from GitHub.
+4. В Variables добавьте `BOT_TOKEN`.
+5. Для постоянной SQLite базы добавьте Volume и установите `DB_PATH=/data/ogonek.db`.
+6. Railway запустит `python -m app.main`.
+
+## Telegram Business
+
+Подключите бота к Telegram Business через настройки Telegram и выдайте ему доступ к нужным чатам.
+
+Бот считает сообщения, которые Telegram передаёт ему через Business Mode. Важно: Telegram Business API определяет, какие сообщения и чаты доступны конкретному Business Connection; бот не получает произвольный доступ ко всем чатам аккаунта.
+
+## Выбор контакта
+
+Используйте `/invite USER_ID`. Получатель получает красивое приглашение с кнопками «Принять» и «Отклонить».
+
+## Логика
+
+День считается только если оба участника отправили минимум одно сообщение в этот календарный день. При следующем успешном дне серия увеличивается. День без переписки прерывает непрерывную серию.
+
+Часовой пояс задаётся `TIMEZONE`.
+
+
+## Railway (без Procfile)
+
+Этот проект специально не использует `Procfile`. Railway запускает приложение через `railway.json`:
+
+`python -m app.main`
+
+В Railway → Variables добавьте:
+
+`BOT_TOKEN=...`
+
+Для постоянной SQLite базы подключите Volume `/data` и оставьте:
+
+`DB_PATH=/data/ogonek.db`
+
+После изменения репозитория сделайте Redeploy/Clear Build Cache, если Railway сохранил старую конфигурацию.
+
+
+## Railway — важное
+
+В этой версии НЕТ `railway.json`, `railway.toml`, `Procfile` и `Dockerfile`.
+Это сделано специально, чтобы Railpack автоматически определил Python-проект.
+
+В Railway → Settings → Deploy → Start Command укажите:
+
+`python main.py`
+
+В Variables добавьте:
+
+`BOT_TOKEN=ваш_токен`
+
+Опционально:
+
+`TIMEZONE=Europe/Berlin`
+`DB_PATH=/data/ogonek.db`
+`REMINDER_HOUR=20`
+`REMINDER_MINUTE=0`
+
+Если используете Railway Volume, подключите его к `/data`.
